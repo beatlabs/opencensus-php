@@ -41,11 +41,10 @@ before_script:
 
 jobs:
   include:
-    - stage: "Test"
-      name: "Unit Tests"
-    - script: vendor/bin/phpunit
-      name: "Integration Tests"
-    - script:
+    - stage: Unit Tests
+      script: vendor/bin/phpunit
+    - stage: Integration Tests
+      script:
         - sh tests/integration/curl/test.sh
         - sh tests/integration/guzzle5/test.sh
         - sh tests/integration/guzzle6/test.sh
