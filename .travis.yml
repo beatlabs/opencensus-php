@@ -6,23 +6,18 @@ php:
   - '7.3'
 
 before_install:
-  - autoconf -V
   - sudo apt-get update -y
+  - sudo apt-get install -y automake
   - sudo apt-get install -y -q --no-install-recommends
   - sudo apt-get install -y build-essential
   - sudo apt-get install -y g++
   - sudo apt-get install -y gcc
   - sudo apt-get install -y libc-dev
-  - sudo apt-get install -y make
   - sudo apt-get install -y autoconf
   - sudo apt-get install -y git
   - sudo apt-get install -y unzip
-  - sudo apt-get install -y pushd ext
-  - sudo apt-get install -y phpize
-  - ./configure --enable-opencensus
-  - make test || ((find . -name '*.diff' | xargs cat) && false)
 
 
-before_script:
+install:
   - composer install -n --prefer-dist
   - sudo cp config/php.ini /usr/local/etc/php
