@@ -11,11 +11,6 @@ services:
   - mysql
   - redis-server
 
-env:
-  - DB_USERNAME=mysql
-  - DB_PASSWORD=mysql
-  - DB_DATABASE=mysqldb
-
 before_install:
   - sudo apt-get update -y
   - sudo apt-get install -y automake
@@ -41,9 +36,9 @@ before_script:
 
 jobs:
   include:
-    - stage: Unit Tests
+    - stage: unit tests
       script: vendor/bin/phpunit
-    - stage: Integration Tests
+    - stage: integration tests
       script:
         - sh tests/integration/curl/test.sh
         - sh tests/integration/guzzle5/test.sh
