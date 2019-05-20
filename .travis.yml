@@ -27,7 +27,7 @@ before_install:
 
 install:
   - pecl install opencensus-alpha
-  - pecl install memcached
+  - pecl install memcached <<<''
   - composer install -n --prefer-dist
 
 before_script:
@@ -44,3 +44,4 @@ script:
   - sh tests/integration/pgsql/test.sh
   - sh tests/integration/symfony4/test.sh
   - sh tests/integration/wordpress/test.sh
+  - sh tests/integration/redis/test.sh
