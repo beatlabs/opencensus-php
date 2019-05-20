@@ -24,10 +24,10 @@ before_install:
   - sudo apt-get install -y libmemcached-dev
   - sudo apt-get install -y zlib1g-dev
   - sudo apt-get install -y zlib1g
+  - sudo apt-get install -y memcached
 
 install:
   - pecl install opencensus-alpha
-  - pecl install memcached <<<""
   - composer install -n --prefer-dist
 
 before_script:
