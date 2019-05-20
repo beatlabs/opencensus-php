@@ -26,8 +26,8 @@ before_install:
   - sudo apt-get install -y zlib1g
 
 install:
-  - sudo pecl install opencensus-alpha
-  - sudo pecl install memcached
+  - pecl install opencensus-alpha
+  - pecl install memcached
   - composer install -n --prefer-dist
 
 before_script:
