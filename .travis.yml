@@ -5,6 +5,17 @@ php:
   - '7.2'
   - '7.3'
 
+services:
+  - memcached
+  - postgresql
+  - mysql
+  - redis-server
+
+env:
+  - DB_USERNAME=mysql
+  - DB_PASSWORD=mysql
+  - DB_DATABASE=mysqldb
+
 before_install:
   - sudo apt-get update -y
   - sudo apt-get install -y automake
@@ -15,14 +26,32 @@ before_install:
   - sudo apt-get install -y libc-dev
   - sudo apt-get install -y autoconf
   - sudo apt-get install -y unzip
+  - sudo apt-get install -y libmemcached11
+  - sudo apt-get install -y libmemcached-dev
+  - sudo apt-get install -y zlib1g-dev
+  - sudo apt-get install -y zlib1g
 
 install:
-  - pecl install opencensus-alpha
+  - sudo pecl install opencensus-alpha
+  - sudo pecl install memcached
   - composer install -n --prefer-dist
 
 before_script:
   - sudo cp config/php.ini /usr/local/etc/php
   - vendor/bin/phpcs --standard=./phpcs-ruleset.xml
 
-script:
-  - vendor/bin/phpunit
+jobs:
+  include:
+    - stage: "Test"
+      name: "Unit Tests"
+    - script: vendor/bin/phpunit
+      name: "Integration Tests"
+    - script:
+        - sh tests/integration/curl/test.sh
+        - sh tests/integration/guzzle5/test.sh
+        - sh tests/integration/guzzle6/test.sh
+        - sh tests/integration/laravel/test.sh
+        - sh tests/integration/memcached/test.sh
+        - sh tests/integration/pgsql/test.sh
+        - sh tests/integration/symfony4/test.sh
+        - sh tests/integration/wordpress/test.sh
