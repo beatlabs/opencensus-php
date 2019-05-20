@@ -27,7 +27,7 @@ before_install:
 
 install:
   - pecl install opencensus-alpha
-  - pecl install memcached <<<\\'\\'
+  - printf "\n" | pecl install memcached
   - composer install -n --prefer-dist
 
 before_script:
