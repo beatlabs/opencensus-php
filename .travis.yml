@@ -34,25 +34,13 @@ before_script:
   - sudo cp config/php.ini /usr/local/etc/php
   - vendor/bin/phpcs --standard=./phpcs-ruleset.xml
 
-jobs:
-  include:
-    - stage: unit tests
-      php:
-        - '7.1'
-        - '7.2'
-        - '7.3'
-      script: vendor/bin/phpunit
-    - stage: integration tests
-      php:
-        - '7.1'
-        - '7.2'
-        - '7.3'
-      script:
-        - sh tests/integration/curl/test.sh
-        - sh tests/integration/guzzle5/test.sh
-        - sh tests/integration/guzzle6/test.sh
-        - sh tests/integration/laravel/test.sh
-        - sh tests/integration/memcached/test.sh
-        - sh tests/integration/pgsql/test.sh
-        - sh tests/integration/symfony4/test.sh
-        - sh tests/integration/wordpress/test.sh
+script:
+  - vendor/bin/phpunit
+  - sh tests/integration/curl/test.sh
+  - sh tests/integration/guzzle5/test.sh
+  - sh tests/integration/guzzle6/test.sh
+  - sh tests/integration/laravel/test.sh
+  - sh tests/integration/memcached/test.sh
+  - sh tests/integration/pgsql/test.sh
+  - sh tests/integration/symfony4/test.sh
+  - sh tests/integration/wordpress/test.sh
