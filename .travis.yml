@@ -26,7 +26,6 @@ before_install:
   - sudo apt-get install -y libc-dev
   - sudo apt-get install -y autoconf
   - sudo apt-get install -y unzip
-  - sudo apt-get install -y libmemcached11
   - sudo apt-get install -y libmemcached-dev
   - sudo apt-get install -y zlib1g-dev
   - sudo apt-get install -y zlib1g
