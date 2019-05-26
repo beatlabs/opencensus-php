@@ -1,47 +1,29 @@
-dist: trusty
 language: php
 php:
   - '7.1'
-  - '7.2'
-  - '7.3'
-
-services:
-  - memcached
-  - postgresql
-  - mysql
-  - redis-server
-
-before_install:
-  - sudo apt-get update -y
-  - sudo apt-get install -y automake
-  - sudo apt-get install -y -q --no-install-recommends
-  - sudo apt-get install -y build-essential
-  - sudo apt-get install -y g++
-  - sudo apt-get install -y gcc
-  - sudo apt-get install -y libc-dev
-  - sudo apt-get install -y autoconf
-  - sudo apt-get install -y unzip
-  - sudo apt-get install -y libmemcached-dev
-  - sudo apt-get install -y zlib1g-dev
-  - sudo apt-get install -y zlib1g
-  - sudo apt-get install -y memcached
 
 install:
-  - pecl install opencensus-alpha
-  - composer install -n --prefer-dist
-
-before_script:
-  - sudo cp config/php.ini /usr/local/etc/php
-  - vendor/bin/phpcs --standard=./phpcs-ruleset.xml
+  - wget -O sami.phar http://get.sensiolabs.org/sami.phar
+  - wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.30.2/hugo_0.30.2_Linux-64bit.deb
+  - sudo dpkg -i /tmp/hugo.deb
 
 script:
-  - vendor/bin/phpunit
-  - sh tests/integration/curl/test.sh
-  - sh tests/integration/guzzle5/test.sh
-  - sh tests/integration/guzzle6/test.sh
-  - sh tests/integration/laravel/test.sh
-  - sh tests/integration/memcached/test.sh
-  - sh tests/integration/pgsql/test.sh
-  - sh tests/integration/symfony4/test.sh
-  - sh tests/integration/wordpress/test.sh
-  - sh tests/integration/redis/test.sh
+  - pushd docs
+  - hugo
+  - popd
+  - cp config/sami.php config/sami-config.php
+  - php sami.phar update config/sami-config.php
+  - touch docs/.nojekyll
+
+branches:
+  only:
+    - master
+
+deploy:
+  provider: pages
+  local_dir: docs/public
+  skip_cleanup: true
+  email: chingor@google.com # To satisfy the CLA check, replace this with bot email.
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  on:
+    branch: master
