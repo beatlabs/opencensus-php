@@ -23,7 +23,7 @@ use OpenCensus\Trace\Integrations\Predis as RedisIntegration;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
 
-class RedisTest extends TestCase
+class PredisTest extends TestCase
 {
     private $tracer;
     private static $redisHost;

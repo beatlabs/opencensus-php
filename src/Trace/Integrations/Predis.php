@@ -17,7 +17,7 @@ use OpenCensus\Trace\Span;
 class Predis implements IntegrationInterface
 {
     /**
-     * Static method to add instrumentation to redis requests
+     * Static method to add instrumentation to predis requests
      */
     public static function load()
     {
