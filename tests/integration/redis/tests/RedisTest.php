@@ -19,7 +19,7 @@ namespace OpenCensus\Tests\Integration\Trace\Exporter;
 
 use OpenCensus\Trace\Tracer;
 use OpenCensus\Trace\Exporter\ExporterInterface;
-use OpenCensus\Trace\Integrations\Redis as RedisIntegration;
+use OpenCensus\Trace\Integrations\Predis as RedisIntegration;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
 
