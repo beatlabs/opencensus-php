@@ -80,5 +80,4 @@ class JaegerTraceFormatter implements FormatterInterface
 
         return $ret;
     }
-
 }
