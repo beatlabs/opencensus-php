@@ -21,7 +21,7 @@ class JaegerTraceFormatter implements FormatterInterface
      *  NOTE ABOUT {parent-span-id}: Deprecated, most Jaeger clients ignore
      *  on the receiving side, but still include it on the sending side
      */
-    const CONTEXT_HEADER_FORMAT = '/(\w+):(\d+)?:?(\w+):?(\d)/';
+    const CONTEXT_HEADER_FORMAT = '/(\w+):(\d+):(\d+):(\d)/';
 
     /**
      * Generate a SpanContext object from the Trace Context header
@@ -64,17 +64,19 @@ class JaegerTraceFormatter implements FormatterInterface
     public function serialize(SpanContext $context) : string
     {
         $ret = '' . $context->traceId();
+
         if ($context->spanId()) {
             // spanId
             $ret .= ':' . $this->hexToDec($context->spanId());
             // parentSpanId
             $ret .= ':0' ;
+        } else {
+            // spanId with parentSpanId
+            $ret .= ':0:0' ;
         }
 
         // isEnabled
         $ret .= ':' . (!empty($context->enabled()) ? '1' : '0');
-
-        $this->deserialize($ret);
 
         return $ret;
     }
