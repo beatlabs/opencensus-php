@@ -38,6 +38,7 @@ class Elastica implements IntegrationInterface
     {
         if (!extension_loaded('opencensus')) {
             trigger_error('opencensus extension required to load Elastica integrations.', E_USER_WARNING);
+            return;
         }
 
         opencensus_trace_method('Elastica\Client', '__construct', [static::class, 'handleConstruct']);

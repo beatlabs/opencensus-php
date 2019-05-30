@@ -23,6 +23,7 @@ class Predis implements IntegrationInterface
     {
         if (!extension_loaded('opencensus')) {
             trigger_error('opencensus extension required to load Predis integrations.', E_USER_WARNING);
+            return;
         }
 
         opencensus_trace_method('Predis\Client', '__construct', [static::class, 'handleConstruct']);
