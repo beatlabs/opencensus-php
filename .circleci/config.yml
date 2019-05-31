@@ -37,7 +37,10 @@ unit-config: &unit-config
           else
             echo "Skipping extension tests"
           fi
-
+    - run:
+        name: Install mongodb pecl extensions
+        command: |
+          $SUDO_CMD pecl install mongodb;
     # Download and cache dependencies
     - restore_cache:
         keys:
@@ -70,7 +73,7 @@ unit-config: &unit-config
         name: PHP unit tests with extension
         command: |
           if [ $RUN_EXTENSION_TESTS -eq "1" ]; then
-            php -d extension=opencensus.so vendor/bin/phpunit
+            php -d extension=opencensus.so -d extension=mongodb.so vendor/bin/phpunit
           else
             echo "Skipping units tests with extension"
           fi
@@ -143,6 +146,7 @@ jobs:
           POSTGRES_USER: postgres
       - image: redis:4.0
       - image: elasticsearch:6.8.0
+      - image: mongo:3.6.6
     steps:
       - checkout
       - run:
@@ -192,6 +196,11 @@ jobs:
             sudo pecl install redis
             sudo docker-php-ext-enable redis
       - run:
+          name: Install mongo extension
+          command: |
+            sudo pecl install mongodb
+            sudo docker-php-ext-enable mongodb
+      - run:
           name: Curl test
           command: tests/integration/curl/test.sh
       - run:
@@ -210,11 +219,6 @@ jobs:
           name: Pgsql test
           command: tests/integration/pgsql/test.sh
       - run:
-          name: Symfony 4 test
-          command: tests/integration/symfony4/test.sh
-          environment:
-            DATABASE_URL: mysql://mysql:mysql@127.0.0.1:3306/mysqldb
-      - run:
           name: Wordpress test
           command: tests/integration/wordpress/test.sh
       - run:
@@ -223,6 +227,14 @@ jobs:
       - run:
           name: Elastica test
           command: tests/integration/elastica/test.sh
+      - run:
+          name: MongoDB test
+          command: tests/integration/mongodb/test.sh
+      - run:
+          name: Symfony 4 test
+          command: tests/integration/symfony4/test.sh
+          environment:
+            DATABASE_URL: mysql://mysql:mysql@127.0.0.1:3306/mysqldb
     environment:
       DB_HOST: 127.0.0.1
       DB_USERNAME: mysql

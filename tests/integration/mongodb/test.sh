@@ -18,17 +18,10 @@ set -e
 pushd $(dirname ${BASH_SOURCE[0]})
 source ../setup_test_repo.sh
 
-composer create-project --prefer-dist symfony/skeleton symfony 4.0
-cp -r src tests phpunit.xml.dist symfony/
+sed -i "s|dev-master|dev-${BRANCH}|" composer.json
+sed -i "s|https://github.com/beatlabs/opencensus-php|${REPO}|" composer.json
+composer install -n --prefer-dist
 
-pushd symfony
-
-composer config repositories.opencensus git ${REPO}
-composer require opencensus/opencensus:dev-${BRANCH} doctrine
-composer require --dev phpunit/phpunit:^7.0 guzzlehttp/guzzle:~6.0
-
-bin/console doctrine:migrations:migrate -n
 vendor/bin/phpunit
 
-popd
 popd
