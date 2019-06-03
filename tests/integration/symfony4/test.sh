@@ -18,7 +18,7 @@ set -e
 pushd $(dirname ${BASH_SOURCE[0]})
 source ../setup_test_repo.sh
 
-composer create-project --prefer-dist symfony/skeleton symfony 4.0
+composer create-project --prefer-dist symfony/skeleton symfony ^4.0
 cp -r src tests phpunit.xml.dist symfony/
 
 pushd symfony
