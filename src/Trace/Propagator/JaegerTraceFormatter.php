@@ -21,7 +21,7 @@ class JaegerTraceFormatter implements FormatterInterface
      *  NOTE ABOUT {parent-span-id}: Deprecated, most Jaeger clients ignore
      *  on the receiving side, but still include it on the sending side
      */
-    const CONTEXT_HEADER_FORMAT = '/(\w+):(\w+):(\d+):(\d)/';
+    const CONTEXT_HEADER_FORMAT = '/(\w+):(\w+):(\w+):(\d)/';
 
     /**
      * Generate a SpanContext object from the Trace Context header
